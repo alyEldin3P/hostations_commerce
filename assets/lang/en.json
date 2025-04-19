@@ -1,0 +1,138 @@
+{
+  "app_name": "Hostations Commerce",
+  
+  "general": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "done": "Done",
+    "save": "Save",
+    "delete": "Delete",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "view_all": "View All"
+  },
+  
+  "onboarding": {
+    "welcome_title": "Welcome to Hostations",
+    "welcome_description": "Your one-stop shop for all your e-commerce needs",
+    "discover_title": "Discover Products",
+    "discover_description": "Browse through thousands of products from your favorite stores",
+    "checkout_title": "Easy Checkout",
+    "checkout_description": "Secure and fast checkout process for a seamless shopping experience"
+  },
+  
+  "language": {
+    "select_language": "Select Your Language",
+    "choose_language": "Choose your preferred language",
+    "english": "English",
+    "arabic": "Arabic"
+  },
+  
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "guest": "Continue as Guest",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "forgot_password": "Forgot Password?",
+    "dont_have_account": "Don't have an account?",
+    "already_have_account": "Already have an account?",
+    "sign_up": "Sign Up",
+    "sign_in": "Sign In",
+    "logout": "Logout"
+  },
+  
+  "home": {
+    "categories": "Categories",
+    "top_products": "Top Products",
+    "sale_products": "Sale Products",
+    "new_arrivals": "New Arrivals",
+    "recommended": "Recommended for You"
+  },
+  
+  "product": {
+    "add_to_cart": "Add to Cart",
+    "add_to_wishlist": "Add to Wishlist",
+    "remove_from_wishlist": "Remove from Wishlist",
+    "share": "Share",
+    "description": "Description",
+    "reviews": "Reviews",
+    "related_products": "Related Products",
+    "variants": "Variants",
+    "size": "Size",
+    "color": "Color",
+    "quantity": "Quantity",
+    "in_stock": "In Stock",
+    "out_of_stock": "Out of Stock",
+    "price": "Price"
+  },
+  
+  "cart": {
+    "my_cart": "My Cart",
+    "empty_cart": "Your cart is empty",
+    "start_shopping": "Start Shopping",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "tax": "Tax",
+    "total": "Total",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "apply_coupon": "Apply Coupon",
+    "coupon_code": "Coupon Code"
+  },
+  
+  "checkout": {
+    "checkout": "Checkout",
+    "shipping_address": "Shipping Address",
+    "payment_method": "Payment Method",
+    "order_summary": "Order Summary",
+    "place_order": "Place Order",
+    "order_placed": "Order Placed Successfully",
+    "order_failed": "Order Failed",
+    "credit_card": "Credit Card",
+    "paypal": "PayPal",
+    "cash_on_delivery": "Cash on Delivery"
+  },
+  
+  "profile": {
+    "my_profile": "My Profile",
+    "edit_profile": "Edit Profile",
+    "my_orders": "My Orders",
+    "my_wishlist": "My Wishlist",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "privacy_policy": "Privacy Policy",
+    "terms_conditions": "Terms & Conditions",
+    "about_us": "About Us",
+    "contact_us": "Contact Us",
+    "help_support": "Help & Support",
+    "logout": "Logout"
+  },
+  
+  "orders": {
+    "my_orders": "My Orders",
+    "order_details": "Order Details",
+    "order_id": "Order ID",
+    "order_date": "Order Date",
+    "order_status": "Order Status",
+    "track_order": "Track Order",
+    "cancel_order": "Cancel Order",
+    "pending": "Pending",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled"
+  }
+}

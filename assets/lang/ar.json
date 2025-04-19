@@ -1,0 +1,138 @@
+{
+  "app_name": "هوستيشنز كومرس",
+  
+  "general": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "تم بنجاح",
+    "retry": "إعادة المحاولة",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "continue": "متابعة",
+    "back": "رجوع",
+    "next": "التالي",
+    "skip": "تخطي",
+    "done": "تم",
+    "save": "حفظ",
+    "delete": "حذف",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "view_all": "عرض الكل"
+  },
+  
+  "onboarding": {
+    "welcome_title": "مرحبًا بك في هوستيشنز",
+    "welcome_description": "متجرك الشامل لجميع احتياجات التجارة الإلكترونية",
+    "discover_title": "اكتشف المنتجات",
+    "discover_description": "تصفح آلاف المنتجات من متاجرك المفضلة",
+    "checkout_title": "دفع سهل",
+    "checkout_description": "عملية دفع آمنة وسريعة لتجربة تسوق سلسة"
+  },
+  
+  "language": {
+    "select_language": "اختر لغتك",
+    "choose_language": "اختر لغتك المفضلة",
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  },
+  
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "guest": "المتابعة كضيف",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirm_password": "تأكيد كلمة المرور",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "dont_have_account": "ليس لديك حساب؟",
+    "already_have_account": "لديك حساب بالفعل؟",
+    "sign_up": "إنشاء حساب",
+    "sign_in": "تسجيل الدخول",
+    "logout": "تسجيل الخروج"
+  },
+  
+  "home": {
+    "categories": "الفئات",
+    "top_products": "أفضل المنتجات",
+    "sale_products": "منتجات التخفيضات",
+    "new_arrivals": "وصل حديثًا",
+    "recommended": "موصى به لك"
+  },
+  
+  "product": {
+    "add_to_cart": "إضافة إلى السلة",
+    "add_to_wishlist": "إضافة إلى المفضلة",
+    "remove_from_wishlist": "إزالة من المفضلة",
+    "share": "مشاركة",
+    "description": "الوصف",
+    "reviews": "التقييمات",
+    "related_products": "منتجات ذات صلة",
+    "variants": "المتغيرات",
+    "size": "الحجم",
+    "color": "اللون",
+    "quantity": "الكمية",
+    "in_stock": "متوفر",
+    "out_of_stock": "غير متوفر",
+    "price": "السعر"
+  },
+  
+  "cart": {
+    "my_cart": "سلتي",
+    "empty_cart": "سلة التسوق فارغة",
+    "start_shopping": "ابدأ التسوق",
+    "subtotal": "المجموع الفرعي",
+    "shipping": "الشحن",
+    "tax": "الضريبة",
+    "total": "الإجمالي",
+    "checkout": "إتمام الشراء",
+    "remove": "إزالة",
+    "apply_coupon": "تطبيق الكوبون",
+    "coupon_code": "رمز الكوبون"
+  },
+  
+  "checkout": {
+    "checkout": "إتمام الشراء",
+    "shipping_address": "عنوان الشحن",
+    "payment_method": "طريقة الدفع",
+    "order_summary": "ملخص الطلب",
+    "place_order": "تقديم الطلب",
+    "order_placed": "تم تقديم الطلب بنجاح",
+    "order_failed": "فشل الطلب",
+    "credit_card": "بطاقة ائتمان",
+    "paypal": "باي بال",
+    "cash_on_delivery": "الدفع عند الاستلام"
+  },
+  
+  "profile": {
+    "my_profile": "ملفي الشخصي",
+    "edit_profile": "تعديل الملف الشخصي",
+    "my_orders": "طلباتي",
+    "my_wishlist": "المفضلة",
+    "settings": "الإعدادات",
+    "notifications": "الإشعارات",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "privacy_policy": "سياسة الخصوصية",
+    "terms_conditions": "الشروط والأحكام",
+    "about_us": "عن التطبيق",
+    "contact_us": "اتصل بنا",
+    "help_support": "المساعدة والدعم",
+    "logout": "تسجيل الخروج"
+  },
+  
+  "orders": {
+    "my_orders": "طلباتي",
+    "order_details": "تفاصيل الطلب",
+    "order_id": "رقم الطلب",
+    "order_date": "تاريخ الطلب",
+    "order_status": "حالة الطلب",
+    "track_order": "تتبع الطلب",
+    "cancel_order": "إلغاء الطلب",
+    "pending": "قيد الانتظار",
+    "processing": "قيد المعالجة",
+    "shipped": "تم الشحن",
+    "delivered": "تم التوصيل",
+    "cancelled": "ملغي"
+  }
+}
