@@ -9,6 +9,7 @@ import 'package:hostations_commerce/features/address/presentation/screens/addres
 import 'package:hostations_commerce/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:hostations_commerce/features/auth/presentation/screens/login_screen.dart';
 import 'package:hostations_commerce/features/language/presentation/screens/language_selection_screen.dart';
+import 'package:hostations_commerce/features/orders/presentation/screens/orders_history_screen.dart';
 import 'package:hostations_commerce/features/settings/presentation/screens/settings_screen.dart';
 import 'package:hostations_commerce/features/wishlist/presentation/screens/wishlist_screen.dart';
 import 'package:hostations_commerce/features/notifications/presentation/screens/notifications_screen.dart';
@@ -104,9 +105,12 @@ class ProfileScreen extends StatelessWidget {
             _ProfileListTile(
               icon: Icons.shopping_bag,
               title: 'My Orders',
-              onTap: () {
-                // Navigate to orders screen
-                DependencyInjector().snackBarService.showInfo('Orders coming soon');
+              onTap: () async {
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const OrdersHistoryScreen(),
+                  ),
+                );
               },
               visible: !state.isGuest,
             ),

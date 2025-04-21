@@ -7,6 +7,7 @@ class AppScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final Widget? bottomNavigationBar;
   final bool resizeToAvoidBottomInset;
+  final FloatingActionButtonLocation floatingActionButtonLocation;
 
   const AppScaffold({
     super.key,
@@ -15,7 +16,7 @@ class AppScaffold extends StatelessWidget {
     this.floatingActionButton,
     this.bottomNavigationBar,
     this.resizeToAvoidBottomInset = true,
-    required FloatingActionButtonLocation floatingActionButtonLocation,
+    this.floatingActionButtonLocation = FloatingActionButtonLocation.endFloat,
   });
 
   @override
@@ -24,6 +25,7 @@ class AppScaffold extends StatelessWidget {
       appBar: appBar,
       body: body,
       floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: bottomNavigationBar,
       backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
@@ -33,7 +35,7 @@ class AppScaffold extends StatelessWidget {
 
 class AppButton extends StatelessWidget {
   final String label;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final bool loading;
   final bool outlined;
   final IconData? icon;

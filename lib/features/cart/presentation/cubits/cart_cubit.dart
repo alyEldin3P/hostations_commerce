@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostations_commerce/core/di/dependency_injection.dart';
+import 'package:hostations_commerce/features/address/data/model/address.dart';
 import 'package:hostations_commerce/features/cart/domain/repository/cart_repository.dart';
 import 'package:hostations_commerce/features/cart/presentation/cubits/cart_state.dart';
+import 'dart:developer' as logger;
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository _cartRepository;
@@ -25,7 +25,7 @@ class CartCubit extends Cubit<CartState> {
         clearErrorMessage: true,
       ));
     } catch (e) {
-      log('Error loading cart: $e');
+      logger.log('Error loading cart: $e');
       emit(state.copyWith(
         status: CartStatus.failure,
         errorMessage: 'Failed to load cart: $e',
@@ -54,7 +54,7 @@ class CartCubit extends Cubit<CartState> {
 
       DependencyInjector().snackBarService.showSuccess('Added to cart');
     } catch (e) {
-      log('Error adding to cart: $e');
+      logger.log('Error adding to cart: $e');
       emit(state.copyWith(
         isAddingToCart: false,
         clearProcessingItemId: true,
@@ -88,7 +88,7 @@ class CartCubit extends Cubit<CartState> {
         clearErrorMessage: true,
       ));
     } catch (e) {
-      log('Error updating cart item: $e');
+      logger.log('Error updating cart item: $e');
       emit(state.copyWith(
         isUpdatingCart: false,
         clearProcessingItemId: true,
@@ -140,7 +140,7 @@ class CartCubit extends Cubit<CartState> {
 
       DependencyInjector().snackBarService.showSuccess('Removed from cart');
     } catch (e) {
-      log('Error removing from cart: $e');
+      logger.log('Error removing from cart: $e');
       emit(state.copyWith(
         isRemovingFromCart: false,
         clearProcessingItemId: true,
@@ -171,7 +171,7 @@ class CartCubit extends Cubit<CartState> {
         DependencyInjector().snackBarService.showError('Failed to clear cart');
       }
     } catch (e) {
-      log('Error clearing cart: $e');
+      logger.log('Error clearing cart: $e');
       emit(state.copyWith(
         isUpdatingCart: false,
         errorMessage: 'Failed to clear cart: $e',
@@ -182,9 +182,9 @@ class CartCubit extends Cubit<CartState> {
 
   // Create checkout from cart
   Future<void> createCheckout() async {
-    log('Creating checkout with ${state.cart.items.length} items');
+    logger.log('Creating checkout with ${state.cart.items.length} items');
     if (state.cart.items.isEmpty) {
-      log('Checkout creation aborted: cart is empty');
+      logger.log('Checkout creation aborted: cart is empty');
       DependencyInjector().snackBarService.showWarning('Your cart is empty');
       return;
     }
@@ -193,22 +193,22 @@ class CartCubit extends Cubit<CartState> {
       isCreatingCheckout: true,
       clearCheckoutUrl: true,
     ));
-    log('Set state to isCreatingCheckout=true');
+    logger.log('Set state to isCreatingCheckout=true');
 
     try {
-      log('Calling repository.createCheckout()');
+      logger.log('Calling repository.createCheckout()');
       final checkoutUrl = await _cartRepository.createCheckout();
-      log('Received checkout URL: ${checkoutUrl.isNotEmpty ? 'valid URL' : 'empty'}');
+      logger.log('Received checkout URL: ${checkoutUrl.isNotEmpty ? 'valid URL' : 'empty'}');
 
       if (checkoutUrl.isNotEmpty) {
-        log('Checkout created successfully');
+        logger.log('Checkout created successfully');
         emit(state.copyWith(
           isCreatingCheckout: false,
           checkoutUrl: checkoutUrl,
           clearErrorMessage: true,
         ));
       } else {
-        log('Failed to create checkout: empty URL returned');
+        logger.log('Failed to create checkout: empty URL returned');
         emit(state.copyWith(
           isCreatingCheckout: false,
           errorMessage: 'Failed to create checkout',
@@ -216,12 +216,57 @@ class CartCubit extends Cubit<CartState> {
         DependencyInjector().snackBarService.showError('Failed to create checkout');
       }
     } catch (e) {
-      log('Error creating checkout: $e');
+      logger.log('Error creating checkout: $e');
       emit(state.copyWith(
         isCreatingCheckout: false,
         errorMessage: 'Failed to create checkout: $e',
       ));
       DependencyInjector().snackBarService.showError('Failed to create checkout');
     }
+  }
+
+  Future<void> addDeliveryAddressToCart({required String cartId, required Address address}) async {
+    logger.log('[CartCubit] addDeliveryAddressToCart called with cartId: $cartId, address: ${address.toJson()}');
+    logger.log('[CartCubit] Cart BEFORE adding address: \n${state.cart.toJson().toString()}');
+    emit(state.copyWith(
+      isAddingDeliveryAddress: true,
+      processingItemId: null,
+      addressAddSuccess: false, // reset flag
+    ));
+
+    try {
+      final updatedCart = await _cartRepository.addDeliveryAddressToCart(cartId: cartId, address: address);
+      logger.log('[CartCubit] Cart AFTER adding address: \n${updatedCart.toJson().toString()}');
+
+      emit(state.copyWith(
+        status: CartStatus.addressAddSuccess, // signal success for navigation
+        cart: updatedCart,
+        isAddingDeliveryAddress: false,
+        addressAddSuccess: true,
+        clearErrorMessage: true,
+      ));
+
+      DependencyInjector().snackBarService.showSuccess('Delivery address added to cart');
+    } catch (e) {
+      logger.log('Error adding delivery address to cart: $e');
+      emit(state.copyWith(
+        isAddingDeliveryAddress: false,
+        addressAddSuccess: false,
+        errorMessage: 'Failed to add delivery address to cart: $e',
+      ));
+
+      DependencyInjector().snackBarService.showError('Failed to add delivery address to cart');
+    }
+  }
+
+  // Hardcoded payment methods
+  static const List<String> paymentMethods = [
+    'Credit Card',
+    'PayPal',
+    'Cash on Delivery',
+  ];
+
+  void selectPaymentMethod(String method) {
+    emit(state.copyWith(selectedPaymentMethod: method));
   }
 }

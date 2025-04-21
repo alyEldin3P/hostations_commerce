@@ -5,6 +5,7 @@ import 'package:hostations_commerce/features/address/presentation/cubits/address
 import '../cubits/address_cubit.dart';
 import '../../data/model/address.dart';
 import 'dart:developer';
+import 'package:hostations_commerce/features/address/data/model/country_state_data.dart';
 
 class AddressFormScreen extends StatefulWidget {
   final Address? initialAddress;
@@ -75,16 +76,22 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                   onChanged: (v) => _address = _address.copyWith(city: v),
                   validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                 ),
-                TextFormField(
-                  initialValue: _address.state,
-                  decoration: const InputDecoration(labelText: 'State'),
-                  onChanged: (v) => _address = _address.copyWith(state: v),
+                DropdownButtonFormField<String>(
+                  value: supportedCountries.contains(_address.country) ? _address.country : null,
+                  decoration: const InputDecoration(labelText: 'Country'),
+                  items: supportedCountries.map((country) => DropdownMenuItem(value: country, child: Text(country))).toList(),
+                  onChanged: (v) {
+                    setState(() {
+                      _address = _address.copyWith(country: v, state: '');
+                    });
+                  },
                   validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                 ),
-                TextFormField(
-                  initialValue: _address.country,
-                  decoration: const InputDecoration(labelText: 'Country'),
-                  onChanged: (v) => _address = _address.copyWith(country: v),
+                DropdownButtonFormField<String>(
+                  value: countryToStates[_address.country]?.contains(_address.state) == true ? _address.state : null,
+                  decoration: const InputDecoration(labelText: 'State/Province'),
+                  items: (countryToStates[_address.country] ?? []).map((state) => DropdownMenuItem(value: state, child: Text(state))).toList(),
+                  onChanged: (v) => setState(() => _address = _address.copyWith(state: v)),
                   validator: (v) => v == null || v.isEmpty ? 'Required' : null,
                 ),
                 TextFormField(

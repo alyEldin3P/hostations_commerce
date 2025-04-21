@@ -1,4 +1,6 @@
+import 'package:hostations_commerce/features/address/data/model/address.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart_item.dart';
+import 'package:hostations_commerce/features/cart/domain/models/address.dart';
 
 class DeliveryGroup {
   final String id;
@@ -14,9 +16,9 @@ class DeliveryGroup {
   }
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'selectedDeliveryOptionHandle': selectedDeliveryOptionHandle,
-  };
+        'id': id,
+        'selectedDeliveryOptionHandle': selectedDeliveryOptionHandle,
+      };
 }
 
 class Cart {
@@ -29,6 +31,7 @@ class Cart {
   final double? tax;
   final double? discount;
   final List<DeliveryGroup>? deliveryGroups;
+  final Address? shippingAddress;
 
   const Cart({
     required this.id,
@@ -40,21 +43,21 @@ class Cart {
     this.tax,
     this.discount,
     this.deliveryGroups,
+    this.shippingAddress,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
       id: json['id'],
-      items: (json['items'] as List).map((item) => CartItem.fromJson(item)).toList(),
-      subtotal: json['subtotal'],
-      total: json['total'],
-      currency: json['currency'],
-      itemCount: json['itemCount'],
-      tax: json['tax'],
-      discount: json['discount'],
-      deliveryGroups: json['deliveryGroups'] != null
-        ? (json['deliveryGroups'] as List).map((g) => DeliveryGroup.fromJson(g)).toList()
-        : null,
+      items: (json['items'] as List<dynamic>?)?.map((e) => CartItem.fromJson(e)).toList() ?? [],
+      subtotal: json['subtotal'] ?? '0.00',
+      total: json['total'] ?? '0.00',
+      currency: json['currency'] ?? '',
+      itemCount: json['itemCount'] ?? 0,
+      tax: (json['tax'] as num?)?.toDouble(),
+      discount: (json['discount'] as num?)?.toDouble(),
+      deliveryGroups: (json['deliveryGroups'] as List<dynamic>?)?.map((e) => DeliveryGroup.fromJson(e)).toList(),
+      shippingAddress: json['shippingAddress'] != null ? Address.fromJson(json['shippingAddress']) : null,
     );
   }
 
@@ -69,6 +72,7 @@ class Cart {
       'tax': tax,
       'discount': discount,
       'deliveryGroups': deliveryGroups?.map((g) => g.toJson()).toList(),
+      'shippingAddress': shippingAddress?.toJson(),
     };
   }
 
@@ -82,6 +86,7 @@ class Cart {
     double? tax,
     double? discount,
     List<DeliveryGroup>? deliveryGroups,
+    Address? shippingAddress,
   }) {
     return Cart(
       id: id ?? this.id,
@@ -93,6 +98,7 @@ class Cart {
       tax: tax ?? this.tax,
       discount: discount ?? this.discount,
       deliveryGroups: deliveryGroups ?? this.deliveryGroups,
+      shippingAddress: shippingAddress ?? this.shippingAddress,
     );
   }
 
@@ -105,6 +111,7 @@ class Cart {
       currency: 'USD',
       itemCount: 0,
       deliveryGroups: [],
+      shippingAddress: null,
     );
   }
 
@@ -119,6 +126,7 @@ class Cart {
       tax: 4.00,
       discount: 0.00,
       deliveryGroups: [DeliveryGroup(id: 'group1', selectedDeliveryOptionHandle: 'standard')],
+      shippingAddress: Address.sample(),
     );
   }
 
@@ -135,6 +143,7 @@ class Cart {
       'deliveryGroups': [
         {'id': 'group1', 'selectedDeliveryOptionHandle': 'standard'},
       ],
+      'shippingAddress': Address.fromJsonDummy(),
     };
   }
 }

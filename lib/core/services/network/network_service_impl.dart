@@ -1,6 +1,12 @@
-import 'package:core_dependencies_global/services/network_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+
+abstract class NetworkService {
+  Future<Response> get(String path);
+  Future<Response> post(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options});
+  Future<Response> put(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options});
+  Future<Response> delete(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options});
+}
 
 class NetworkServiceImpl implements NetworkService {
   late final Dio _dio;
@@ -63,34 +69,5 @@ class NetworkServiceImpl implements NetworkService {
       queryParameters: queryParameters,
       options: options,
     );
-  }
-
-  @override
-  Future<Response> patch(String path, {dynamic data, Map<String, dynamic>? queryParameters, Options? options}) {
-    return _dio.patch(
-      path,
-      data: data,
-      queryParameters: queryParameters,
-      options: options,
-    );
-  }
-
-  @override
-  void addHeader(String key, String value) {
-    _dio.options.headers[key] = value;
-  }
-
-  @override
-  void removeHeader(String key) {
-    _dio.options.headers.remove(key);
-  }
-
-  @override
-  void clearHeaders() {
-    _dio.options.headers.clear();
-    _dio.options.headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
   }
 }

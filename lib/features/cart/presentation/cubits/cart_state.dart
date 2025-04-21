@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart_item.dart';
 
-enum CartStatus { initial, loading, success, failure }
+enum CartStatus { initial, loading, success, failure, addressAddSuccess }
 
 class CartState extends Equatable {
   final CartStatus status;
@@ -14,6 +14,9 @@ class CartState extends Equatable {
   final bool isCreatingCheckout;
   final String? processingItemId;
   final String? checkoutUrl;
+  final bool addressAddSuccess;
+  final bool isAddingDeliveryAddress;
+  final String? selectedPaymentMethod;
 
   CartState({
     this.status = CartStatus.initial,
@@ -32,6 +35,9 @@ class CartState extends Equatable {
     this.isCreatingCheckout = false,
     this.processingItemId,
     this.checkoutUrl,
+    this.addressAddSuccess = false,
+    this.isAddingDeliveryAddress = false,
+    this.selectedPaymentMethod,
   });
 
   bool get isEmpty => cart.items.isEmpty;
@@ -61,6 +67,9 @@ class CartState extends Equatable {
         isCreatingCheckout,
         processingItemId,
         checkoutUrl,
+        addressAddSuccess,
+        isAddingDeliveryAddress,
+        selectedPaymentMethod,
       ];
 
   CartState copyWith({
@@ -73,6 +82,9 @@ class CartState extends Equatable {
     bool? isCreatingCheckout,
     String? processingItemId,
     String? checkoutUrl,
+    bool? addressAddSuccess,
+    bool? isAddingDeliveryAddress,
+    String? selectedPaymentMethod,
     bool clearProcessingItemId = false,
     bool clearErrorMessage = false,
     bool clearCheckoutUrl = false,
@@ -87,6 +99,9 @@ class CartState extends Equatable {
       isCreatingCheckout: isCreatingCheckout ?? this.isCreatingCheckout,
       processingItemId: clearProcessingItemId ? null : processingItemId ?? this.processingItemId,
       checkoutUrl: clearCheckoutUrl ? null : checkoutUrl ?? this.checkoutUrl,
+      addressAddSuccess: addressAddSuccess ?? this.addressAddSuccess,
+      isAddingDeliveryAddress: isAddingDeliveryAddress ?? this.isAddingDeliveryAddress,
+      selectedPaymentMethod: selectedPaymentMethod ?? this.selectedPaymentMethod,
     );
   }
 }

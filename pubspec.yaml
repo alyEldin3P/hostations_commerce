@@ -42,6 +42,8 @@ dependencies:
   graphql_flutter: ^5.1.2
   shared_preferences: ^2.2.2
   url_launcher: ^6.1.11
+  webview_flutter: ^4.11.0
+  webview_flutter_plus: ^0.4.15
 
 dev_dependencies:
   flutter_lints: ^5.0.0

@@ -11,6 +11,8 @@ import 'package:hostations_commerce/features/auth/presentation/cubits/auth_cubit
 import 'package:hostations_commerce/features/auth/presentation/cubits/auth_state.dart';
 import 'package:hostations_commerce/features/auth/presentation/screens/login_screen.dart';
 import 'package:hostations_commerce/features/cart/presentation/cubits/cart_cubit.dart';
+import 'package:hostations_commerce/features/checkout/presentation/screens/confirm_order_screen.dart';
+import 'package:hostations_commerce/features/checkout/presentation/screens/payment_method_screen.dart';
 import 'package:hostations_commerce/features/home/presentation/cubits/home_cubit.dart';
 import 'package:hostations_commerce/features/layout/presentation/screens/layout_screen.dart';
 import 'package:hostations_commerce/features/language/presentation/screens/language_selection_screen.dart';
@@ -64,9 +66,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<AddressCubit>(
           create: (context) => DependencyInjector().addressCubit,
         ),
-        BlocProvider(
-          create: (context) => DependencyInjector().shippingMethodCubit,
-        ),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -97,20 +96,6 @@ class MyApp extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-
-              // Text direction based on locale
-              builder: (context, child) {
-                return Directionality(
-                  textDirection: textDirection,
-                  child: child!,
-                );
-              },
-
-              theme: ThemeData.light(),
-              darkTheme: ThemeData.dark(),
-              themeMode: state.themeMode,
-
-              initialRoute: SplashScreen.routeName,
               routes: {
                 SplashScreen.routeName: (context) => const SplashScreen(),
                 OnboardingScreen.routeName: (context) => const OnboardingScreen(),
@@ -123,8 +108,20 @@ class MyApp extends StatelessWidget {
                 AboutScreen.routeName: (context) => AboutScreen(
                       type: ModalRoute.of(context)!.settings.arguments as String,
                     ),
+                PaymentMethodScreen.routeName: (context) => const PaymentMethodScreen(),
+                ConfirmOrderScreen.routeName: (context) => const ConfirmOrderScreen(),
                 // Add more routes as we implement them
               },
+              builder: (context, child) {
+                return Directionality(
+                  textDirection: textDirection,
+                  child: child!,
+                );
+              },
+              initialRoute: SplashScreen.routeName,
+              theme: ThemeData.light(),
+              darkTheme: ThemeData.dark(),
+              themeMode: state.themeMode,
             );
           },
         ),

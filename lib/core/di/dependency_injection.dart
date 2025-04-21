@@ -1,4 +1,3 @@
-import 'package:core_dependencies_global/services/network_service.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hostations_commerce/core/config/env_config.dart';
@@ -16,10 +15,10 @@ import 'package:hostations_commerce/features/auth/data/repo/auth_repository_impl
 import 'package:hostations_commerce/features/auth/domain/repository/auth_repository.dart';
 import 'package:hostations_commerce/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:hostations_commerce/features/auth/data/local/auth_cache_service.dart';
-import 'package:hostations_commerce/features/cart/data/remote/shipping_remote_data_source.dart';
-import 'package:hostations_commerce/features/cart/data/repo/shipping_repository_impl.dart';
-import 'package:hostations_commerce/features/cart/domain/repository/shipping_repository.dart';
-import 'package:hostations_commerce/features/cart/presentation/cubits/shipping_method_cubit.dart';
+import 'package:hostations_commerce/features/checkout/data/remote/checkout_remote_data_source.dart';
+import 'package:hostations_commerce/features/checkout/data/remote/checkout_remote_data_source_impl.dart';
+import 'package:hostations_commerce/features/checkout/data/repo/checkout_repository.dart';
+import 'package:hostations_commerce/features/checkout/data/repo/checkout_repository_impl.dart';
 import 'package:hostations_commerce/features/home/presentation/cubits/home_cubit.dart';
 import 'package:hostations_commerce/core/services/cache/cache_service.dart';
 import 'package:hostations_commerce/core/services/cache/shared_preferences_cache_service.dart';
@@ -66,7 +65,7 @@ class DependencyInjector {
 
     // Initialize GraphQL Client for Shopify
     final HttpLink httpLink = HttpLink(
-      'https://fabrictaleseg.myshopify.com/api/2023-07/graphql.json',
+      'https://fabrictaleseg.myshopify.com/api/2025-04/graphql.json',
       defaultHeaders: {
         'X-Shopify-Storefront-Access-Token': 'f17fa5ccf6e78f0807aacf37875f2b4f',
       },
@@ -223,13 +222,11 @@ class DependencyInjector {
   AddressCubit get addressCubit => _dependencies[AddressCubit] ??= AddressCubit(
         repository: addressRepository,
       );
-  ShippingMethodCubit get shippingMethodCubit => _dependencies[ShippingMethodCubit] ??= ShippingMethodCubit(
-        repository: shippingRepository,
+
+  CheckoutRepository get checkoutRepository => _dependencies[CheckoutRepository] ??= CheckoutRepositoryImpl(
+        remoteDataSource: checkoutRemoteDataSource,
       );
-  ShippingRepository get shippingRepository => _dependencies[ShippingRepository] ??= ShippingRepositoryImpl(
-        remoteDataSource: shippingRemoteDataSource,
-      );
-  ShippingRemoteDataSource get shippingRemoteDataSource => _dependencies[ShippingRemoteDataSource] ??= ShopifyShippingRemoteDataSource(
-        client: graphQLClient,
+  CheckoutRemoteDataSource get checkoutRemoteDataSource => _dependencies[CheckoutRemoteDataSource] ??= CheckoutRemoteDataSourceImpl(
+        networkService: networkService,
       );
 }

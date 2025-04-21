@@ -4,9 +4,11 @@ import 'dart:developer' as dev;
 import 'package:hostations_commerce/core/error/exceptions.dart';
 import 'package:hostations_commerce/core/network/network_info.dart';
 import 'package:hostations_commerce/core/services/cache/cache_service.dart';
+import 'package:hostations_commerce/features/address/data/model/address.dart';
 import 'package:hostations_commerce/features/cart/data/remote/cart_remote_data_source.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart.dart';
 import 'package:hostations_commerce/features/cart/domain/repository/cart_repository.dart';
+import 'package:hostations_commerce/features/cart/domain/models/address.dart';
 
 class CartRepositoryImpl implements CartRepository {
   final CartRemoteDataSource remoteDataSource;
@@ -189,6 +191,24 @@ class CartRepositoryImpl implements CartRepository {
       dev.log('Successfully cached cart data');
     } catch (e) {
       dev.log('Error caching cart: $e');
+    }
+  }
+
+  @override
+  Future<Cart> addDeliveryAddressToCart({required String cartId, required Address address}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final updatedCart = await remoteDataSource.addAddressToCart(cartId: cartId, address: address);
+        dev.log('Added delivery address to cart from remote source');
+        _cacheCart(updatedCart);
+        return updatedCart;
+      } catch (e) {
+        dev.log('Error adding delivery address to cart: $e');
+        return await getCart();
+      }
+    } else {
+      dev.log('No internet connection, cannot add delivery address to cart');
+      return await getCart();
     }
   }
 }

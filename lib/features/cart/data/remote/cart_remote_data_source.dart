@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:hostations_commerce/core/di/dependency_injection.dart';
 import 'package:hostations_commerce/core/services/cache/cache_service.dart';
+import 'package:hostations_commerce/features/address/data/model/address.dart';
+import 'package:hostations_commerce/features/address/data/model/address_mapper.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart_item.dart';
 import 'package:graphql_flutter/graphql_flutter.dart' as graphql;
@@ -29,6 +30,8 @@ abstract class CartRemoteDataSource {
   /// Create a checkout from the cart
   /// Returns the checkout URL if successful
   Future<String> createCheckout();
+
+  Future<Cart> addAddressToCart({required String cartId, required Address address});
 }
 
 class ShopifyCartRemoteDataSource implements CartRemoteDataSource {
@@ -140,6 +143,30 @@ class ShopifyCartRemoteDataSource implements CartRemoteDataSource {
                 }
               }
             }
+            delivery {
+              addresses {
+                id
+                oneTimeUse
+                selected
+                address {
+                  ... on CartDeliveryAddress {
+                    address1
+                    address2
+                    city
+                    company
+                    countryCode
+                    firstName
+                    lastName
+                    phone
+                    provinceCode
+                    zip
+                    name
+                    formatted
+                    formattedArea
+                  }
+                }
+              }
+            }
           }
         }
       ''';
@@ -153,7 +180,8 @@ class ShopifyCartRemoteDataSource implements CartRemoteDataSource {
           fetchPolicy: graphql.FetchPolicy.networkOnly, // Ensure we always hit the network
         ),
       );
-
+      // Log the raw Shopify response for debugging
+      log('Shopify getCart response: \u001b[36m${result.data}\u001b[0m');
       if (result.hasException) {
         log('GraphQL error: ${result.exception.toString()}');
         // If there's an error (like cart not found), create a new cart
@@ -835,5 +863,82 @@ class ShopifyCartRemoteDataSource implements CartRemoteDataSource {
       log('Error creating checkout: ${e.toString()}');
       return '';
     }
+  }
+
+  @override
+  Future<Cart> addAddressToCart({required String cartId, required Address address}) async {
+    // Build CartDeliveryAddressInput for Shopify 2025 API
+
+    final addressInput = toCartDeliveryAddressInput(address);
+    const mutation = r'''
+      mutation cartDeliveryAddressesAdd(
+        $cartId: ID!,
+        $addresses: [CartSelectableAddressInput!]!
+      ) {
+        cartDeliveryAddressesAdd(cartId: $cartId, addresses: $addresses) {
+          cart {
+            id
+            delivery {
+              addresses {
+                id
+                oneTimeUse
+                selected
+                address {
+                  ... on CartDeliveryAddress {
+                    address1
+                    address2
+                    city
+                    countryCode
+                    firstName
+                    lastName
+                    phone
+                    provinceCode
+                    zip
+                    name
+                  }
+                }
+        
+              }
+            }
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    ''';
+
+    final result = await _graphQLClient.mutate(
+      graphql.MutationOptions(
+        document: graphql.gql(mutation),
+        variables: {
+          'cartId': cartId,
+          'addresses': [
+            {
+              'address': {
+                "deliveryAddress": addressInput,
+              },
+              'selected': true,
+            }
+          ],
+        },
+      ),
+    );
+
+    final userErrors = result.data?['cartDeliveryAddressesAdd']?['userErrors'] as List?;
+    if (userErrors != null && userErrors.isNotEmpty) {
+      log('[CartRemoteDataSource] cartDeliveryAddressesAdd userErrors: \\${userErrors.map((e) => e['message']).join(', ')}');
+      throw Exception(userErrors.map((e) => e['message']).join(', '));
+    }
+
+    log('[CartRemoteDataSource] cartDeliveryAddressesAdd success with data: ${result}');
+    final cartData = result.data?['cartDeliveryAddressesAdd']?['cart'];
+
+    if (cartData == null) {
+      throw Exception('No cart returned from cartDeliveryAddressesAdd');
+    }
+    log('[CartRemoteDataSource] cartDeliveryAddressesAdd success with cart: ${cartData}');
+    return Cart.fromJson(cartData);
   }
 }

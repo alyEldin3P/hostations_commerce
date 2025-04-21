@@ -1,14 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hostations_commerce/core/di/dependency_injection.dart';
-import 'package:hostations_commerce/core/services/navigation/navigation_service.dart';
-import 'package:hostations_commerce/core/services/snackbar/snackbar_service.dart';
+import 'package:hostations_commerce/features/auth/data/utils/validation_utils.dart';
 import 'package:hostations_commerce/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:hostations_commerce/features/auth/presentation/cubits/auth_state.dart';
-import 'package:hostations_commerce/features/auth/presentation/screens/register_screen.dart';
 import 'package:hostations_commerce/features/auth/presentation/screens/forgot_password_screen.dart';
-import 'package:hostations_commerce/features/auth/data/utils/validation_utils.dart';
-import 'dart:developer';
+import 'package:hostations_commerce/features/auth/presentation/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';

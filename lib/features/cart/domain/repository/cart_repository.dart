@@ -1,4 +1,6 @@
+import 'package:hostations_commerce/features/address/data/model/address.dart';
 import 'package:hostations_commerce/features/cart/domain/models/cart.dart';
+import 'package:hostations_commerce/features/cart/domain/models/address.dart';
 
 abstract class CartRepository {
   /// Get the current cart
@@ -23,4 +25,8 @@ abstract class CartRepository {
   /// Create a checkout from the cart
   /// Returns the checkout URL if successful
   Future<String> createCheckout();
+
+  /// Add a delivery address to the cart
+  /// Returns the updated cart if successful
+  Future<Cart> addDeliveryAddressToCart({required String cartId, required Address address});
 }

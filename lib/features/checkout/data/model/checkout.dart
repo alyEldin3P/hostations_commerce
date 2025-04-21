@@ -1,19 +1,21 @@
 class Checkout {
   final String id;
-  final String webUrl;
+  final String checkoutUrl;
   final List<dynamic> lineItems;
 
-  Checkout({required this.id, required this.webUrl, required this.lineItems});
+  Checkout({required this.id, required this.checkoutUrl, required this.lineItems});
 
   factory Checkout.fromJson(Map<String, dynamic> json) => Checkout(
         id: json['id'] as String,
-        webUrl: json['webUrl'] as String,
-        lineItems: json['lineItems'] as List<dynamic>,
+        checkoutUrl: json['checkoutUrl'] as String,
+        lineItems: json['lines'] != null && json['lines']['edges'] != null
+            ? (json['lines']['edges'] as List).map((e) => e['node']).toList()
+            : [],
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'webUrl': webUrl,
+        'checkoutUrl': checkoutUrl,
         'lineItems': lineItems,
       };
 
